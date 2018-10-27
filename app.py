@@ -113,6 +113,26 @@ def user_guide():
                         #   uri='http://example.com/1'
                         # )
                     ]
+                ),
+                CarouselColumn(
+                    thumbnail_image_url='https://i.imgur.com/ewn6CmO.jpg',
+                    title=' - 【我們關心您的健康】 - ',
+                    text='幫您量身定做的健康照護',
+                    actions=[
+                        PostbackTemplateAction(
+                            label='身高體重',
+                            text='身高體重',
+                            data='action=buy&itemid=1'
+                        ),
+                        MessageTemplateAction(
+                            label='身高體重',
+                            text='身高體重'
+                        ),
+                        # URITemplateAction(
+                        #   label='uri1',
+                        #   uri='http://example.com/1'
+                        # )
+                    ]
                 )
             ]
         )
