@@ -18,22 +18,22 @@ CHANNEL_SECRET = "1d169827c6fe5905f2c7b965cbfa5114"
 
 def user_guide():
     return TemplateSendMessage(
-        alt_text='【使用說明書 ver 2.0】',
+        alt_text='【今天想要使用什麼功能呢？】',
         template=CarouselTemplate(
             columns=[
                 CarouselColumn(
-                    thumbnail_image_url='https://i.imgur.com/yId0uJj.png',
-                    title=' - 【使用說明書】 - ',
-                    text='!使用說明書、!help、!說明書、!helptxt',
+                    thumbnail_image_url='https://i.imgur.com/Bum6bQc.jpg',
+                    title=' - 【開始跑步】 - ',
+                    text='讓我們開始運動吧！',
                     actions=[
                         PostbackTemplateAction(
-                            label='使用說明書',
-                            text='!help',
+                            label='開始跑步',
+                            text='開始跑步',
                             data='action=buy&itemid=1'
                         ),
                         MessageTemplateAction(
-                            label='純文字版',
-                            text='!helptxt'
+                            label='結束跑步',
+                            text='結束跑步'
                         ),
                         # URITemplateAction(
                         #   label='uri1',
@@ -43,38 +43,18 @@ def user_guide():
                 ),
 
                 CarouselColumn(
-                    thumbnail_image_url='https://i.imgur.com/9Ysg99M.jpg',
-                    title=' - 【算命抽籤類】 - ',
-                    text='!機率、!抽數字',
+                    thumbnail_image_url='https://i.imgur.com/ewn6CmO.jpg',
+                    title=' - 【今天天氣如何呢？】 - ',
+                    text='幫你看看今天天氣怎麼樣～',
                     actions=[
                         PostbackTemplateAction(
-                            label='機率',
-                            text='!機率 ?',
+                            label='天氣',
+                            text='天氣',
                             data='action=buy&itemid=1'
                         ),
                         MessageTemplateAction(
-                            label='抽數字',
-                            text='!抽數字 ?'
-                        ),
-                        # URITemplateAction(
-                        #   label='uri1',
-                        #   uri='http://example.com/1'
-                        # )
-                    ]
-                ),
-                CarouselColumn(
-                    thumbnail_image_url='https://i.imgur.com/TrvwOo0.jpg',
-                    title=' - 【遊戲抽抽類】 - ',
-                    text='對決模式/21點/幾A幾B/終極密碼/定時炸彈/撲克比大小/機會命運',
-                    actions=[
-                        PostbackTemplateAction(
-                            label='小遊戲',
-                            text='小遊戲',
-                            data='action=buy&itemid=1'
-                        ),
-                        MessageTemplateAction(
-                            label='小遊戲',
-                            text='小遊戲'
+                            label='出門注意事項',
+                            text='出門注意事項'
                         ),
                         # URITemplateAction(
                         #   label='uri1',
@@ -114,7 +94,7 @@ def handle_message(event):
         output_message = user_guide()
         line_bot_api.reply_message(event.reply_token, output_message)
     else:  
-        output_message = TextSendMessage(text=message)  
+        output_message = TextSendMessage(text="請輸入「開始」就可以開始體驗各種功能囉！")  
         line_bot_api.reply_message(event.reply_token, output_message)
 
 import os
