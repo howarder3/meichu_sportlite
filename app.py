@@ -98,7 +98,10 @@ def handle_message(event):
     elif(user_message == "開始跑步"):
         output_message = TextSendMessage(text="已開始記錄！祝您跑步愉快！")  
         line_bot_api.reply_message(event.reply_token, output_message)
-    elif(user_message == "結束跑步"):
+    elif(user_message == "在線跑步人數"):
+        output_message = TextSendMessage(text="目前有 21 個人正在跑步哦！")  
+        line_bot_api.reply_message(event.reply_token, output_message)
+    elif(user_message == "結束跑步"):    
         output_message = TextSendMessage(text="好的！辛苦您了！\n以下是您的跑步結果：")  
         line_bot_api.reply_message(event.reply_token, output_message)
     elif(user_message == "天氣"):
