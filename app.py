@@ -14,12 +14,53 @@ from io import StringIO
 import json
 from datetime import datetime, timedelta
 
+from __future__ import print_function
+from apiclient.discovery import build
+from httplib2 import Http
+from oauth2client import file, client, tools
+
+from pprint import pprint
+from googleapiclient import discovery
+
+import random
+import time
+
 app = Flask(__name__)
 
 
 CHANNEL_ACCESS_TOKEN = "YQj3rgXGt7E3aZyHVWHnl/Q/+3JMLwlvrXCDwLhH+tniIj7T/r/5mWo6Y+z6Txsrh1u06xhueL6IqmGtXm1VHp8VtlK8DVnGJjBVE7sbfYCKAR9hfvSUrd/Dh8FEYbICwVIRRF+RtkTuYtF16CIFOgdB04t89/1O/w1cDnyilFU="
 
 CHANNEL_SECRET = "1d169827c6fe5905f2c7b965cbfa5114"
+
+my_database_sheet_ID = '1RaGPlEJKQeg_xnUGi1mlUt95-Gc6n-XF_czwudIP5Qk'
+auth_json_path = 'auth.json'
+april_ID='Udf8f28a8b752786fa7a6be7d8c808ec6'
+
+def get_value_from_google_sheet(SPREADSHEET_ID,RANGE_NAME):
+    # Setup the Sheets API
+    SCOPES = 'https://www.googleapis.com/auth/spreadsheets.readonly'
+    store = file.Storage('credentials.json')
+    creds = store.get()
+    if not creds or creds.invalid:
+        flow = client.flow_from_clientsecrets('client_secret.json', SCOPES)
+        creds = tools.run_flow(flow, store)
+    service = build('sheets', 'v4', http=creds.authorize(Http()))
+
+    # Call the Sheets API
+    result = service.spreadsheets().values().get(spreadsheetId=SPREADSHEET_ID,
+                                                 range=RANGE_NAME).execute()
+    return result.get('values', [])
+
+values = get_value_from_google_sheet(my_database_sheet_ID,'meichu!A2:C1500')
+
+list_key = []
+list_response = []
+list_type = []
+for row in values:  
+    list_key.append(row[0])
+    list_response.append(row[1])
+    list_type.append(row[2])
+
 
 count = 0
 my_headers = {'CK': 'PKJ2FK5NBYFA1RCGG8'}
@@ -105,6 +146,28 @@ def handle_message(event):
     if(user_message in ["開始","start"]):
         output_message = user_guide()
         line_bot_api.reply_message(event.reply_token, output_message)
+    elif(user_message == "身高體重"):
+        ask_flag = 1
+        output_message = TextSendMessage(text="請輸入身高(cm)：")  
+        line_bot_api.reply_message(event.reply_token, output_message)  
+    elif(ask_flag == 1):
+        try:
+            height = int(user_message)
+            ask_flag = 2
+            output_message = TextSendMessage(text="請輸入體重(kg)：")  
+            line_bot_api.reply_message(event.reply_token, output_message) 
+        except:
+            output_message = TextSendMessage(text="請再輸入一次身高(不用輸入cm)：")  
+            line_bot_api.reply_message(event.reply_token, output_message)
+    elif(ask_flag == 2):
+        try:
+            weight = int(user_message)
+            ask_flag = 0
+            output_message = TextSendMessage(text="以下是您的個人資訊：\n身高： "+height+" cm\n體重： "+weight+" kg")  
+            line_bot_api.reply_message(event.reply_token, output_message) 
+        except:
+            output_message = TextSendMessage(text="請再輸入一次體重(不用輸入kg)：")  
+            line_bot_api.reply_message(event.reply_token, output_message)  
     elif(user_message == "開始跑步"):
         output_message = TextSendMessage(text="已開始記錄！祝您跑步愉快！")  
         line_bot_api.reply_message(event.reply_token, output_message)
@@ -139,7 +202,8 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, output_message)
     elif(user_message == "出門注意事項"):
         output_message = TextSendMessage(text="今天出門的話需要注意：")  
-        line_bot_api.reply_message(event.reply_token, output_message)     
+        line_bot_api.reply_message(event.reply_token, output_message)  
+
     else:  
         output_message = TemplateSendMessage(
             alt_text='請輸入「開始」就可以開始體驗各種功能囉！',
