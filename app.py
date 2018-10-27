@@ -30,6 +30,7 @@ count = 0
 my_headers = {'CK': 'PKJ2FK5NBYFA1RCGG8'}
 data_string = ''
 
+first_flag = 0
 ask_flag = 0
 weight = 0
 height = 0
@@ -138,9 +139,53 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, output_message) 
     else:
         user_message = event.message.text 
-        if(user_message in ["開始","start"]):
-            output_message = user_guide()
+        if(user_message in ["開始","start"] & first_flag == 0)|(user_message == "重新修改"):
+            result = "第一次使用請輸入您的身高(cm)："
+            first_flag = 1
+            output_message = TextSendMessage(text= result)  
             line_bot_api.reply_message(event.reply_token, output_message)
+        elif(first_flag == 1):
+            try:
+                height = int(user_message)
+                first_flag = 2
+                output_message = TextSendMessage(text="第一次使用請輸入您的體重(kg)：")  
+                line_bot_api.reply_message(event.reply_token, output_message) 
+            except:
+                output_message = TextSendMessage(text="請再輸入一次身高(不用輸入cm)：")  
+                line_bot_api.reply_message(event.reply_token, output_message)
+        elif(first_flag == 2):
+            try:
+                weight = int(user_message)
+                first_flag = 3
+                result = "以下是您的個人資訊：\n身高： "+str(height)+" cm\n體重： "+str(weight)+" kg\n"
+                output_message = TemplateSendMessage(
+                    alt_text=result ,
+                    template=ConfirmTemplate(
+                        text=result ,
+                        actions=[
+                            PostbackTemplateAction(
+                                label='正確，開始使用',
+                                text='開始',
+                                data='action=buy&itemid=1'
+                            ),
+                            MessageTemplateAction(
+                                label='重新修改',
+                                text='重新修改'
+                            )
+                        ]
+                    )
+                )
+                line_bot_api.reply_message(event.reply_token, output_message)
+
+                output_message = TextSendMessage(text= result)  
+                line_bot_api.reply_message(event.reply_token, output_message)   
+            except:
+                output_message = TextSendMessage(text="請再輸入一次體重(不用輸入kg)：")  
+                line_bot_api.reply_message(event.reply_token, output_message) 
+
+        elif(user_message in ["開始","start"]):
+            output_message = user_guide()  
+            line_bot_api.reply_message(event.reply_token, output_message)    
         elif(user_message == "查詢身高體重"):
             result = "以下是您的個人資訊：\n身高： "+str(height)+" cm\n體重： "+str(weight)+" kg"
             output_message = TextSendMessage(text= result)  
