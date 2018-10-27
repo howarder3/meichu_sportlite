@@ -139,12 +139,12 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, output_message) 
     else:
         user_message = event.message.text 
-        if(user_message in ["開始","start"] & first_flag == 0)|(user_message == "重新修改"):
+        if((user_message in ["開始","start"] & first_flag == 0) or (user_message == "重新修改")):
             result = "第一次使用請輸入您的身高(cm)："
             first_flag = 1
             output_message = TextSendMessage(text= result)  
             line_bot_api.reply_message(event.reply_token, output_message)
-        elif(first_flag == 1):
+        elif(first_flag == 1): 
             try:
                 height = int(user_message)
                 first_flag = 2
