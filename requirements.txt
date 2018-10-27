@@ -1,3 +1,4 @@
+PIL
 line-bot-sdk
 flask
 requests
