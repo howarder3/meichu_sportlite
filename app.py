@@ -114,13 +114,13 @@ def handle_message(event):
                 text='請輸入「開始」就可以開始體驗各種功能囉！',
                 actions=[
                     PostbackTemplateAction(
-                        label='開始',
-                        text='開始',
+                        label='start',
+                        text='start',
                         data='action=buy&itemid=1'
                     ),
                     MessageTemplateAction(
-                        label='start',
-                        text='start'
+                        label='開始',
+                        text='開始'
                     )
                 ]
             )
