@@ -94,7 +94,7 @@ def handle_message(event):
         output_message = user_guide()
         line_bot_api.reply_message(event.reply_token, output_message)
     elif(user_message == "開始跑步"):
-        output_message = TextSendMessage(text="祝你跑步愉快！")  
+        output_message = TextSendMessage(text="已開始記錄！祝您跑步愉快！")  
         line_bot_api.reply_message(event.reply_token, output_message)
     elif(user_message == "結束跑步"):
         output_message = TextSendMessage(text="好的！辛苦您了！\n以下是您的跑步結果：\n")  
