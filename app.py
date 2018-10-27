@@ -30,6 +30,8 @@ my_headers = {'CK': 'PKJ2FK5NBYFA1RCGG8'}
 data_string = ''
 
 ask_flag = 0
+weight = 0
+height = 0
 
 def user_guide():
     return TemplateSendMessage(
@@ -88,8 +90,8 @@ def user_guide():
                             data='action=buy&itemid=1'
                         ),
                         MessageTemplateAction(
-                            label='身高體重',
-                            text='身高體重'
+                            label='查詢身高體重',
+                            text='查詢身高體重'
                         ),
                         # URITemplateAction(
                         #   label='uri1',
@@ -124,12 +126,16 @@ def callback():
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    global ask_flag
+    global ask_flag,height,weight
     print(event)
     user_message = event.message.text 
     if(user_message in ["開始","start"]):
         output_message = user_guide()
         line_bot_api.reply_message(event.reply_token, output_message)
+    elif(user_message == "查詢身高體重"):
+        result = "以下是您的個人資訊：\n身高： "+str(height)+" cm\n體重： "+str(weight)+" kg"
+        output_message = TextSendMessage(text= result)  
+        line_bot_api.reply_message(event.reply_token, output_message) 
     elif(user_message == "身高體重"):
         ask_flag = 1
         output_message = TextSendMessage(text="請輸入身高(cm)：")  
