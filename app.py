@@ -254,7 +254,7 @@ def handle_message(event):
                 line_bot_api.reply_message(event.reply_token, output_message)  
         elif(user_message == "開始跑步"):
             output_message = TextSendMessage(text="已開始記錄！祝您跑步愉快！")  
-            line_bot_api.push_message('Cd562f7db39d503c99578e8b323cb0582', TextSendMessage(text='智乃壞掉囉~~~'))
+            line_bot_api.push_message('Cd562f7db39d503c99578e8b323cb0582', TextSendMessage(text='test push'))
             line_bot_api.reply_message(event.reply_token, output_message)
         elif(user_message == "在線跑步人數"):
             output_message = TextSendMessage(text="目前有 21 個人正在跑步哦！")  
