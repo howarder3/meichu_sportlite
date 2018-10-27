@@ -154,7 +154,7 @@ def handle_message(event):
             # result = "以下是您的目前座標：\n經度： "+str(event.message.longitude)+"\n緯度： "+str(event.message.latitude)
             result = "好的！辛苦您了！\n以下是您的跑步結果："
             Distance = math.sqrt(_latitude +_longitude)
-            result = {"跑步距離： {0:.3f} km\n跑步時間： {1:.3f} 小時\n消耗卡路里： {2:.3f} kcal "}.format(Distance,_time/60/24,weight*Distance*1.036)
+            result = ("跑步距離： {0:.3f} km\n跑步時間： {1:.3f} 小時\n消耗卡路里： {2:.3f} kcal ").format(Distance,_time/60/24,weight*Distance*1.036)
             output_message = TextSendMessage(text= result)  
             line_bot_api.reply_message(event.reply_token, output_message) 
 
@@ -278,7 +278,7 @@ def handle_message(event):
                 line_bot_api.reply_message(event.reply_token, output_message)  
         elif(user_message == "開始跑步"):
             # output_message = TextSendMessage(text="已開始記錄！祝您跑步愉快！")  
-            output_message = TextSendMessage(text='請依照以上指示上傳位置訊息：')
+            output_message = TextSendMessage(text='請依照以下提示上傳位置訊息：')
             # line_bot_api.reply_message(event.reply_token, output_message)
             img1 = ImageSendMessage(
                 original_content_url= "https://i.imgur.com/fwY9ZFg.jpg",
@@ -293,16 +293,18 @@ def handle_message(event):
                 preview_image_url= "https://i.imgur.com/5sjFAMf.jpg"
             )
             record_flag = 1
+            
+            line_bot_api.push_message('Cd562f7db39d503c99578e8b323cb0582', output_message)
             line_bot_api.push_message('Cd562f7db39d503c99578e8b323cb0582', img1)
             line_bot_api.push_message('Cd562f7db39d503c99578e8b323cb0582', img2)
-            line_bot_api.push_message('Cd562f7db39d503c99578e8b323cb0582', img3)
-            line_bot_api.reply_message(event.reply_token, output_message)
+            # line_bot_api.push_message('Cd562f7db39d503c99578e8b323cb0582', img3)
+            line_bot_api.reply_message(event.reply_token, img3)
         elif(user_message == "在線跑步人數"):
             output_message = TextSendMessage(text="目前有 21 個人正在跑步哦！")  
             line_bot_api.reply_message(event.reply_token, output_message)
         elif(user_message == "結束跑步" and record_flag == 1):    
             record_flag = 2
-            output_message = TextSendMessage(text='請依照以上指示上傳位置訊息：')
+            output_message = TextSendMessage(text='請依照以下提示上傳位置訊息：')
             # line_bot_api.reply_message(event.reply_token, output_message)
             img1 = ImageSendMessage(
                 original_content_url= "https://i.imgur.com/fwY9ZFg.jpg",
@@ -316,9 +318,11 @@ def handle_message(event):
                 original_content_url= "https://i.imgur.com/5sjFAMf.jpg",
                 preview_image_url= "https://i.imgur.com/5sjFAMf.jpg"
             )
+            line_bot_api.push_message('Cd562f7db39d503c99578e8b323cb0582', output_message)
             line_bot_api.push_message('Cd562f7db39d503c99578e8b323cb0582', img1)
             line_bot_api.push_message('Cd562f7db39d503c99578e8b323cb0582', img2)
-            line_bot_api.push_message('Cd562f7db39d503c99578e8b323cb0582', img3)
+            # line_bot_api.push_message('Cd562f7db39d503c99578e8b323cb0582', img3)
+            line_bot_api.reply_message(event.reply_token, img3)
             # line_bot_api.reply_message(event.reply_token, img3)
             # output_message = TextSendMessage(text="好的！辛苦您了！\n以下是您的跑步結果：")  
             line_bot_api.reply_message(event.reply_token, output_message)
