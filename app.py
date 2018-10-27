@@ -93,6 +93,18 @@ def handle_message(event):
     if(user_message == "開始"):
         output_message = user_guide()
         line_bot_api.reply_message(event.reply_token, output_message)
+    elif(user_message == "開始跑步"):
+        output_message = TextSendMessage(text="祝你跑步愉快！")  
+        line_bot_api.reply_message(event.reply_token, output_message)
+    elif(user_message == "結束跑步"):
+        output_message = TextSendMessage(text="好的！辛苦您了！\n以下是您的跑步結果：\n")  
+        line_bot_api.reply_message(event.reply_token, output_message)
+    elif(user_message == "天氣"):
+        output_message = TextSendMessage(text="以下是今天天氣供您參考：\n")  
+        line_bot_api.reply_message(event.reply_token, output_message)
+    elif(user_message == "出門注意事項"):
+        output_message = TextSendMessage(text="今天出門的話需要注意：\n")  
+        line_bot_api.reply_message(event.reply_token, output_message)     
     else:  
         output_message = TextSendMessage(text="請輸入「開始」就可以開始體驗各種功能囉！")  
         line_bot_api.reply_message(event.reply_token, output_message)
