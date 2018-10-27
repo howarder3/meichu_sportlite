@@ -2,5 +2,4 @@ line-bot-sdk
 flask
 requests
 datetime
-io
 PIL
