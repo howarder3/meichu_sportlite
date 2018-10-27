@@ -144,18 +144,50 @@ def handle_message(event):
             _starttime = time.time()
             # result = "以下是您的目前座標：\n經度： "+str(event.message.longitude)+"\n緯度： "+str(event.message.latitude)
             result = "已開始記錄！祝您跑步愉快！"
-            output_message = TextSendMessage(text= result)  
-            line_bot_api.reply_message(event.reply_token, output_message) 
+            output_message = TemplateSendMessage(
+                    alt_text=result ,
+                    template=ConfirmTemplate(
+                        text=result ,
+                        actions=[
+                            PostbackTemplateAction(
+                                label='結束',
+                                text='結束跑步',
+                                data='action=buy&itemid=1'
+                            ),
+                            MessageTemplateAction(
+                                label='其他功能',
+                                text='開始'
+                            )
+                        ]
+                    )
+                )
+            line_bot_api.reply_message(event.reply_token, output_message)  
         elif record_flag == 2:
             _longitude = (event.message.longitude*96 - longitude*96)**2
             _latitude = (event.message.latitude*111 - latitude*111)**2
             record_flag = 0
             _time = time.time() - _starttime
             # result = "以下是您的目前座標：\n經度： "+str(event.message.longitude)+"\n緯度： "+str(event.message.latitude)
-            result = "好的！辛苦您了！\n以下是您的跑步結果："
+            result = "好的！辛苦您了！\n以下是您的跑步結果：\n"
             Distance = math.sqrt(_latitude +_longitude)
-            result = ("跑步距離： {0:.3f} km\n跑步時間： {1:.3f} 小時\n消耗卡路里： {2:.3f} kcal ").format(Distance,_time/60/24,weight*Distance*1.036)
-            output_message = TextSendMessage(text= result)  
+            result += ("跑步距離： {0:.3f} km\n跑步時間： {1:.3f} 小時\n消耗卡路里： {2:.3f} kcal ").format(Distance,_time/60/24,weight*Distance*1.036)
+            output_message = TemplateSendMessage(
+                    alt_text=result ,
+                    template=ConfirmTemplate(
+                        text=result ,
+                        actions=[
+                            PostbackTemplateAction(
+                                label='OK！',
+                                text='開始',
+                                data='action=buy&itemid=1'
+                            ),
+                            MessageTemplateAction(
+                                label='繼續',
+                                text='開始'
+                            )
+                        ]
+                    )
+                )
             line_bot_api.reply_message(event.reply_token, output_message) 
 
     elif event.message.type == "sticker":
