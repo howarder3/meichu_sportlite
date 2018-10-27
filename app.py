@@ -154,7 +154,7 @@ def handle_message(event):
             # result = "以下是您的目前座標：\n經度： "+str(event.message.longitude)+"\n緯度： "+str(event.message.latitude)
             result = "好的！辛苦您了！\n以下是您的跑步結果："
             Distance = math.sqrt(_latitude +_longitude)
-            result = "跑步距離： "+Distance+" km\n 跑步時間："+_time+" 小時\n 消耗卡路里： "+weight*Distance*1.036+" kcal "
+            result = "跑步距離： "+str(Distance)+" km\n 跑步時間："+str(_time)+" 小時\n 消耗卡路里： "+str(weight*Distance*1.036)+" kcal "
             output_message = TextSendMessage(text= result)  
             line_bot_api.reply_message(event.reply_token, output_message) 
 
