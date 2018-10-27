@@ -139,7 +139,7 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, output_message) 
     else:
         user_message = event.message.text 
-        if((user_message == "開始" & first_flag == 0) or (user_message == "重新修改")):
+        if(((user_message in ["開始","start"]) and (first_flag == 0)) or (user_message == "重新修改")):
             result = "第一次使用請輸入您的身高(cm)："
             first_flag = 1
             output_message = TextSendMessage(text= result)  
@@ -262,7 +262,7 @@ def handle_message(event):
                     actions=[
                         PostbackTemplateAction(
                             label='start',
-                            text='開始',
+                            text='start',
                             data='action=buy&itemid=1'
                         ),
                         MessageTemplateAction(
