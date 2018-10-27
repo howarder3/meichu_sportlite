@@ -132,6 +132,9 @@ def handle_message(event):
         result = "以下是您的目前座標：\n經度： "+str(event.message.longitude)+"\n緯度： "+str(event.message.latitude)
         output_message = TextSendMessage(text= result)  
         line_bot_api.reply_message(event.reply_token, output_message) 
+    elif event.message.type == "sticker":
+        output_message = StickerSendMessage(package_id='2',sticker_id=str(random.randint(140,180)))
+        line_bot_api.reply_message(event.reply_token, output_message) 
     else:
         user_message = event.message.text 
         if(user_message in ["開始","start"]):
