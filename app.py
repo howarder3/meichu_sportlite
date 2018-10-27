@@ -139,8 +139,13 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, output_message) 
     else:
         user_message = event.message.text 
-        if(((user_message in ["開始","start"]) and (first_flag == 0)) or (user_message == "重新修改")):
+        if((user_message in ["開始","start"]) and (first_flag == 0)):
             result = "第一次使用請輸入您的身高(cm)："
+            first_flag = 1
+            output_message = TextSendMessage(text= result)  
+            line_bot_api.reply_message(event.reply_token, output_message)
+        elif(user_message == "重新修改"):
+            result = "請輸入您的身高(cm)："
             first_flag = 1
             output_message = TextSendMessage(text= result)  
             line_bot_api.reply_message(event.reply_token, output_message)
@@ -148,7 +153,7 @@ def handle_message(event):
             try:
                 height = int(user_message)
                 first_flag = 2
-                output_message = TextSendMessage(text="第一次使用請輸入您的體重(kg)：")  
+                output_message = TextSendMessage(text="請輸入您的體重(kg)：")  
                 line_bot_api.reply_message(event.reply_token, output_message) 
             except:
                 output_message = TextSendMessage(text="請再輸入一次身高(不用輸入cm)：")  
@@ -164,7 +169,7 @@ def handle_message(event):
                         text=result ,
                         actions=[
                             PostbackTemplateAction(
-                                label='正確，開始使用',
+                                label='正確，開始',
                                 text='開始',
                                 data='action=buy&itemid=1'
                             ),
@@ -175,10 +180,7 @@ def handle_message(event):
                         ]
                     )
                 )
-                line_bot_api.reply_message(event.reply_token, output_message)
-
-                output_message = TextSendMessage(text= result)  
-                line_bot_api.reply_message(event.reply_token, output_message)   
+                line_bot_api.reply_message(event.reply_token, output_message) 
             except:
                 output_message = TextSendMessage(text="請再輸入一次體重(不用輸入kg)：")  
                 line_bot_api.reply_message(event.reply_token, output_message) 
@@ -198,8 +200,24 @@ def handle_message(event):
             try:
                 height = int(user_message)
                 ask_flag = 0
-                result = "以下是您的個人資訊：\n身高： "+str(height)+" cm\n體重： "+str(weight)+" kg"
-                output_message = TextSendMessage(text= result)  
+                result = "以下是您的個人資訊：\n身高： "+str(height)+" cm\n體重： "+str(weight)+" kg\n"
+                output_message = TemplateSendMessage(
+                    alt_text=result ,
+                    template=ConfirmTemplate(
+                        text=result ,
+                        actions=[
+                            PostbackTemplateAction(
+                                label='正確，開始',
+                                text='開始',
+                                data='action=buy&itemid=1'
+                            ),
+                            MessageTemplateAction(
+                                label='重新修改',
+                                text='重新修改'
+                            )
+                        ]
+                    )
+                )
                 line_bot_api.reply_message(event.reply_token, output_message) 
             except:
                 output_message = TextSendMessage(text="請再輸入一次身高(不用輸入cm)：")  
@@ -212,14 +230,31 @@ def handle_message(event):
             try:
                 weight = int(user_message)
                 ask_flag = 0
-                result = "以下是您的個人資訊：\n身高： "+str(height)+" cm\n體重： "+str(weight)+" kg"
-                output_message = TextSendMessage(text= result)  
-                line_bot_api.reply_message(event.reply_token, output_message) 
+                result = "以下是您的個人資訊：\n身高： "+str(height)+" cm\n體重： "+str(weight)+" kg\n"
+                output_message = TemplateSendMessage(
+                    alt_text=result ,
+                    template=ConfirmTemplate(
+                        text=result ,
+                        actions=[
+                            PostbackTemplateAction(
+                                label='正確，開始',
+                                text='開始',
+                                data='action=buy&itemid=1'
+                            ),
+                            MessageTemplateAction(
+                                label='重新修改',
+                                text='重新修改'
+                            )
+                        ]
+                    )
+                )
+                line_bot_api.reply_message(event.reply_token, output_message)  
             except:
                 output_message = TextSendMessage(text="請再輸入一次體重(不用輸入kg)：")  
                 line_bot_api.reply_message(event.reply_token, output_message)  
         elif(user_message == "開始跑步"):
             output_message = TextSendMessage(text="已開始記錄！祝您跑步愉快！")  
+            line_bot_api.push_message('Cd562f7db39d503c99578e8b323cb0582', TextSendMessage(text='智乃壞掉囉~~~'))
             line_bot_api.reply_message(event.reply_token, output_message)
         elif(user_message == "在線跑步人數"):
             output_message = TextSendMessage(text="目前有 21 個人正在跑步哦！")  
