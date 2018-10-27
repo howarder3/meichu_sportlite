@@ -1,4 +1,4 @@
-PIL
+Image
 line-bot-sdk
 flask
 requests
