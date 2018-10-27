@@ -147,7 +147,8 @@ def handle_message(event):
         try:
             weight = int(user_message)
             ask_flag = 0
-            output_message = TextSendMessage(text="以下是您的個人資訊：\n身高： "+height+" cm\n體重： "+weight+" kg")  
+            result = "以下是您的個人資訊：\n身高： "+height+" cm\n體重： "+weight+" kg"
+            output_message = TextSendMessage(text= result )  
             line_bot_api.reply_message(event.reply_token, output_message) 
         except:
             output_message = TextSendMessage(text="請再輸入一次體重(不用輸入kg)：")  
