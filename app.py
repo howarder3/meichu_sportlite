@@ -8,12 +8,22 @@ from linebot.exceptions import (
 )
 from linebot.models import *
 
+import requests
+from PIL import Image
+from io import StringIO
+import json
+from datetime import datetime, timedelta
+
 app = Flask(__name__)
 
 
 CHANNEL_ACCESS_TOKEN = "YQj3rgXGt7E3aZyHVWHnl/Q/+3JMLwlvrXCDwLhH+tniIj7T/r/5mWo6Y+z6Txsrh1u06xhueL6IqmGtXm1VHp8VtlK8DVnGJjBVE7sbfYCKAR9hfvSUrd/Dh8FEYbICwVIRRF+RtkTuYtF16CIFOgdB04t89/1O/w1cDnyilFU="
 
 CHANNEL_SECRET = "1d169827c6fe5905f2c7b965cbfa5114"
+
+count = 0
+my_headers = {'CK': 'PKJ2FK5NBYFA1RCGG8'}
+data_string = ''
 
 
 
@@ -105,7 +115,27 @@ def handle_message(event):
         output_message = TextSendMessage(text="好的！辛苦您了！\n以下是您的跑步結果：")  
         line_bot_api.reply_message(event.reply_token, output_message)
     elif(user_message == "天氣"):
-        output_message = TextSendMessage(text="以下是今天天氣供您參考：")  
+        result = '以下是今天天氣供您參考：\n服務大樓測站:'
+        r = requests.get('https://iot.cht.com.tw/iot/v1/device/4841588924/sensor/AI6/rawdata', headers = my_headers)
+        if r.status_code == requests.codes.ok:
+            temp = json.loads(r.text)
+            result += ('溫度: ', temp['value'][0], '\t', '時間: ', temp['time'])
+        r = requests.get('https://iot.cht.com.tw/iot/v1/device/4841588924/sensor/AI7/rawdata', headers = my_headers)
+        if r.status_code == requests.codes.ok:
+            temp = json.loads(r.text)
+            result += ('濕度: ', temp['value'][0], '\t', '時間: ', temp['time'])
+
+        r = requests.get('https://iot.cht.com.tw/iot/v1/device/4841588924/sensor/AI11/rawdata', headers = my_headers)
+        if r.status_code == requests.codes.ok:
+            temp = json.loads(r.text)
+            result += ('紫外: ', temp['value'][0], '\t', '時間: ', temp['time'])
+
+        r = requests.get('https://iot.cht.com.tw/iot/v1/device/4841588924/sensor/AI13/rawdata', headers = my_headers)
+        if r.status_code == requests.codes.ok:
+            temp = json.loads(r.text)
+            result += ('PM2.5: ', temp['value'][0], '\t', '時間: ', temp['time']) 
+
+        output_message = TextSendMessage(text=result) 
         line_bot_api.reply_message(event.reply_token, output_message)
     elif(user_message == "出門注意事項"):
         output_message = TextSendMessage(text="今天出門的話需要注意：")  
