@@ -29,7 +29,7 @@ count = 0
 my_headers = {'CK': 'PKJ2FK5NBYFA1RCGG8'}
 data_string = ''
 
-
+ask_flag = 0
 
 def user_guide():
     return TemplateSendMessage(
