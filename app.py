@@ -115,25 +115,25 @@ def handle_message(event):
         output_message = TextSendMessage(text="好的！辛苦您了！\n以下是您的跑步結果：")  
         line_bot_api.reply_message(event.reply_token, output_message)
     elif(user_message == "天氣"):
-        result = '以下是今天天氣供您參考：\n服務大樓測站:'
+        result = '以下是今天天氣供您參考：\n'
         r = requests.get('https://iot.cht.com.tw/iot/v1/device/4841588924/sensor/AI6/rawdata', headers = my_headers)
         if r.status_code == requests.codes.ok:
             temp = json.loads(r.text)
-            result += str('溫度: '+ temp['value'][0]+ '\t'+ '時間: '+ temp['time'])
+            result += str('溫度: '+ temp['value'][0]+ '\n'+ '時間: '+ temp['time']+ '\n')
         r = requests.get('https://iot.cht.com.tw/iot/v1/device/4841588924/sensor/AI7/rawdata', headers = my_headers)
         if r.status_code == requests.codes.ok:
             temp = json.loads(r.text)
-            result += str('濕度: '+ temp['value'][0]+ '\t'+ '時間: '+ temp['time'])
+            result += str('濕度: '+ temp['value'][0]+ '\n'+ '時間: '+ temp['time']+ '\n')
 
         r = requests.get('https://iot.cht.com.tw/iot/v1/device/4841588924/sensor/AI11/rawdata', headers = my_headers)
         if r.status_code == requests.codes.ok:
             temp = json.loads(r.text)
-            result += str('紫外: '+ temp['value'][0]+ '\t'+ '時間: '+ temp['time'])
+            result += str('紫外: '+ temp['value'][0]+ '\n'+ '時間: '+ temp['time']+ '\n')
 
         r = requests.get('https://iot.cht.com.tw/iot/v1/device/4841588924/sensor/AI13/rawdata', headers = my_headers)
         if r.status_code == requests.codes.ok:
             temp = json.loads(r.text)
-            result += str('PM2.5: '+ temp['value'][0]+ '\t'+ '時間: '+ temp['time']) 
+            result += str('PM2.5: '+ temp['value'][0]+ '\n'+ '時間: '+ temp['time']) 
 
         output_message = TextSendMessage(text=result) 
         line_bot_api.reply_message(event.reply_token, output_message)
