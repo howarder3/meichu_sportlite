@@ -124,6 +124,7 @@ def callback():
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    global ask_flag
     print(event)
     user_message = event.message.text 
     if(user_message in ["開始","start"]):
