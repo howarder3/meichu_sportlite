@@ -9,6 +9,7 @@ from linebot.exceptions import (
 from linebot.models import *
 
 import requests
+import random
 from PIL import Image
 from io import StringIO
 import json
@@ -126,7 +127,7 @@ def callback():
 # 處理訊息
 @handler.add(MessageEvent)
 def handle_message(event):
-    global ask_flag,height,weight
+    global ask_flag,height,weight,first_flag
     print(event)
     if event.message.type == "location":
         result = "以下是您的目前座標：\n經度： "+str(event.message.longitude)+"\n緯度： "+str(event.message.latitude)
@@ -181,16 +182,16 @@ def handle_message(event):
             r = requests.get('https://iot.cht.com.tw/iot/v1/device/4841588924/sensor/AI6/rawdata', headers = my_headers)
             if r.status_code == requests.codes.ok:
                 temp = json.loads(r.text)
-                result += str('溫度: '+ temp['value'][0])
+                result += str('溫度: '+ temp['value'][0]+ '\n')
             r = requests.get('https://iot.cht.com.tw/iot/v1/device/4841588924/sensor/AI7/rawdata', headers = my_headers)
             if r.status_code == requests.codes.ok:
                 temp = json.loads(r.text)
-                result += str('濕度: '+ temp['value'][0])
+                result += str('濕度: '+ temp['value'][0]+ '\n')
 
             r = requests.get('https://iot.cht.com.tw/iot/v1/device/4841588924/sensor/AI11/rawdata', headers = my_headers)
             if r.status_code == requests.codes.ok:
                 temp = json.loads(r.text)
-                result += str('紫外: '+ temp['value'][0])
+                result += str('紫外: '+ temp['value'][0]+ '\n')
 
             r = requests.get('https://iot.cht.com.tw/iot/v1/device/4841588924/sensor/AI13/rawdata', headers = my_headers)
             if r.status_code == requests.codes.ok:
