@@ -125,15 +125,32 @@ def callback():
         abort(400)
     return 'OK'
 
+longitude = 0
+latitude = 0
+record_flag = 0
+
 # 處理訊息
 @handler.add(MessageEvent)
 def handle_message(event):
-    global ask_flag,height,weight,first_flag
+    global ask_flag,height,weight,first_flag,longitude,latitude
     print(event)
     if event.message.type == "location":
-        result = "以下是您的目前座標：\n經度： "+str(event.message.longitude)+"\n緯度： "+str(event.message.latitude)
-        output_message = TextSendMessage(text= result)  
-        line_bot_api.reply_message(event.reply_token, output_message) 
+        if record_flag == 1:
+            longitude = event.message.longitude
+            latitude = event.message.latitude
+            # result = "以下是您的目前座標：\n經度： "+str(event.message.longitude)+"\n緯度： "+str(event.message.latitude)
+            result = "已開始記錄！祝您跑步愉快！"
+            output_message = TextSendMessage(text= result)  
+            line_bot_api.reply_message(event.reply_token, output_message) 
+        elif record_flag == 2:
+            longitude = event.message.longitude
+            latitude = event.message.latitude
+            record_flag = 0
+            # result = "以下是您的目前座標：\n經度： "+str(event.message.longitude)+"\n緯度： "+str(event.message.latitude)
+            result = "已開始記錄！祝您跑步愉快！"
+            output_message = TextSendMessage(text= result)  
+            line_bot_api.reply_message(event.reply_token, output_message) 
+
     elif event.message.type == "sticker":
         output_message = StickerSendMessage(package_id='2',sticker_id=str(random.randint(140,180)))
         line_bot_api.reply_message(event.reply_token, output_message) 
@@ -253,7 +270,7 @@ def handle_message(event):
                 output_message = TextSendMessage(text="請再輸入一次體重(不用輸入kg)：")  
                 line_bot_api.reply_message(event.reply_token, output_message)  
         elif(user_message == "開始跑步"):
-            output_message = TextSendMessage(text="已開始記錄！祝您跑步愉快！")  
+            # output_message = TextSendMessage(text="已開始記錄！祝您跑步愉快！")  
             line_bot_api.push_message('Cd562f7db39d503c99578e8b323cb0582', TextSendMessage(text='請依照下列指示上傳位置訊息：'))
             # line_bot_api.reply_message(event.reply_token, output_message)
             img1 = ImageSendMessage(
@@ -264,13 +281,37 @@ def handle_message(event):
                 original_content_url= "https://i.imgur.com/UJoBLDr.jpg",
                 preview_image_url= "https://i.imgur.com/UJoBLDr.jpg"
             )
+            img3 = ImageSendMessage(
+                original_content_url= "https://i.imgur.com/5sjFAMf.jpg",
+                preview_image_url= "https://i.imgur.com/5sjFAMf.jpg"
+            )
+            record_flag = 1
             line_bot_api.push_message('Cd562f7db39d503c99578e8b323cb0582', img1)
-            line_bot_api.reply_message(event.reply_token, img2)
+            line_bot_api.push_message('Cd562f7db39d503c99578e8b323cb0582', img2)
+            line_bot_api.reply_message(event.reply_token, img3)
         elif(user_message == "在線跑步人數"):
             output_message = TextSendMessage(text="目前有 21 個人正在跑步哦！")  
             line_bot_api.reply_message(event.reply_token, output_message)
         elif(user_message == "結束跑步"):    
-            output_message = TextSendMessage(text="好的！辛苦您了！\n以下是您的跑步結果：")  
+            record_flag = 2
+            line_bot_api.push_message('Cd562f7db39d503c99578e8b323cb0582', TextSendMessage(text='請依照下列指示上傳位置訊息：'))
+            # line_bot_api.reply_message(event.reply_token, output_message)
+            img1 = ImageSendMessage(
+                original_content_url= "https://i.imgur.com/fwY9ZFg.jpg",
+                preview_image_url= "https://i.imgur.com/fwY9ZFg.jpg"
+            )
+            img2 = ImageSendMessage(
+                original_content_url= "https://i.imgur.com/UJoBLDr.jpg",
+                preview_image_url= "https://i.imgur.com/UJoBLDr.jpg"
+            )
+            img3 = ImageSendMessage(
+                original_content_url= "https://i.imgur.com/5sjFAMf.jpg",
+                preview_image_url= "https://i.imgur.com/5sjFAMf.jpg"
+            )
+            line_bot_api.push_message('Cd562f7db39d503c99578e8b323cb0582', img1)
+            line_bot_api.push_message('Cd562f7db39d503c99578e8b323cb0582', img2)
+            line_bot_api.reply_message(event.reply_token, img3)
+            # output_message = TextSendMessage(text="好的！辛苦您了！\n以下是您的跑步結果：")  
             line_bot_api.reply_message(event.reply_token, output_message)
         elif(user_message == "天氣"):
             result = '以下是今天天氣供您參考：\n'
