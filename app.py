@@ -150,7 +150,7 @@ def handle_message(event):
                         text=result ,
                         actions=[
                             PostbackTemplateAction(
-                                label='結束',
+                                label='結束跑步',
                                 text='結束跑步',
                                 data='action=buy&itemid=1'
                             ),
