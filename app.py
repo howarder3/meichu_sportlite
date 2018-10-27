@@ -90,7 +90,7 @@ def callback():
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    user_message = event.message.text
+    user_message = event.message.textx  
     if(user_message in ["開始","start"]):
         output_message = user_guide()
         line_bot_api.reply_message(event.reply_token, output_message)
@@ -98,13 +98,13 @@ def handle_message(event):
         output_message = TextSendMessage(text="已開始記錄！祝您跑步愉快！")  
         line_bot_api.reply_message(event.reply_token, output_message)
     elif(user_message == "結束跑步"):
-        output_message = TextSendMessage(text="好的！辛苦您了！\n以下是您的跑步結果：\ntest")  
+        output_message = TextSendMessage(text="好的！辛苦您了！\n以下是您的跑步結果：")  
         line_bot_api.reply_message(event.reply_token, output_message)
     elif(user_message == "天氣"):
-        output_message = TextSendMessage(text="以下是今天天氣供您參考：\ntest")  
+        output_message = TextSendMessage(text="以下是今天天氣供您參考：")  
         line_bot_api.reply_message(event.reply_token, output_message)
     elif(user_message == "出門注意事項"):
-        output_message = TextSendMessage(text="今天出門的話需要注意：\ntest")  
+        output_message = TextSendMessage(text="今天出門的話需要注意：")  
         line_bot_api.reply_message(event.reply_token, output_message)     
     else:  
         output_message = TemplateSendMessage(
@@ -124,7 +124,6 @@ def handle_message(event):
                 ]
             )
         )
-        line_bot_api.reply_message(event.reply_token, message) 
         line_bot_api.reply_message(event.reply_token, output_message)
 
 import os
