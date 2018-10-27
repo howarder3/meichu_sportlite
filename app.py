@@ -128,92 +128,97 @@ def callback():
 def handle_message(event):
     global ask_flag,height,weight
     print(event)
-    user_message = event.message.text 
-    if(user_message in ["開始","start"]):
-        output_message = user_guide()
-        line_bot_api.reply_message(event.reply_token, output_message)
-    elif(user_message == "查詢身高體重"):
-        result = "以下是您的個人資訊：\n身高： "+str(height)+" cm\n體重： "+str(weight)+" kg"
+    if event.message.type = "location":
+        result = "以下是您的目前座標：\n經度： "+str(event.message.longitude)+"\n緯度： "+str(event.message.latitude)
         output_message = TextSendMessage(text= result)  
         line_bot_api.reply_message(event.reply_token, output_message) 
-    elif(user_message == "身高體重"):
-        ask_flag = 1
-        output_message = TextSendMessage(text="請輸入身高(cm)：")  
-        line_bot_api.reply_message(event.reply_token, output_message)  
-    elif(ask_flag == 1):
-        try:
-            height = int(user_message)
-            ask_flag = 2
-            output_message = TextSendMessage(text="請輸入體重(kg)：")  
-            line_bot_api.reply_message(event.reply_token, output_message) 
-        except:
-            output_message = TextSendMessage(text="請再輸入一次身高(不用輸入cm)：")  
+    else:
+        user_message = event.message.text 
+        if(user_message in ["開始","start"]):
+            output_message = user_guide()
             line_bot_api.reply_message(event.reply_token, output_message)
-    elif(ask_flag == 2):
-        try:
-            weight = int(user_message)
-            ask_flag = 0
+        elif(user_message == "查詢身高體重"):
             result = "以下是您的個人資訊：\n身高： "+str(height)+" cm\n體重： "+str(weight)+" kg"
             output_message = TextSendMessage(text= result)  
             line_bot_api.reply_message(event.reply_token, output_message) 
-        except:
-            output_message = TextSendMessage(text="請再輸入一次體重(不用輸入kg)：")  
+        elif(user_message == "身高體重"):
+            ask_flag = 1
+            output_message = TextSendMessage(text="請輸入身高(cm)：")  
             line_bot_api.reply_message(event.reply_token, output_message)  
-    elif(user_message == "開始跑步"):
-        output_message = TextSendMessage(text="已開始記錄！祝您跑步愉快！")  
-        line_bot_api.reply_message(event.reply_token, output_message)
-    elif(user_message == "在線跑步人數"):
-        output_message = TextSendMessage(text="目前有 21 個人正在跑步哦！")  
-        line_bot_api.reply_message(event.reply_token, output_message)
-    elif(user_message == "結束跑步"):    
-        output_message = TextSendMessage(text="好的！辛苦您了！\n以下是您的跑步結果：")  
-        line_bot_api.reply_message(event.reply_token, output_message)
-    elif(user_message == "天氣"):
-        result = '以下是今天天氣供您參考：\n'
-        r = requests.get('https://iot.cht.com.tw/iot/v1/device/4841588924/sensor/AI6/rawdata', headers = my_headers)
-        if r.status_code == requests.codes.ok:
-            temp = json.loads(r.text)
-            result += str('溫度: '+ temp['value'][0])
-        r = requests.get('https://iot.cht.com.tw/iot/v1/device/4841588924/sensor/AI7/rawdata', headers = my_headers)
-        if r.status_code == requests.codes.ok:
-            temp = json.loads(r.text)
-            result += str('濕度: '+ temp['value'][0])
+        elif(ask_flag == 1):
+            try:
+                height = int(user_message)
+                ask_flag = 2
+                output_message = TextSendMessage(text="請輸入體重(kg)：")  
+                line_bot_api.reply_message(event.reply_token, output_message) 
+            except:
+                output_message = TextSendMessage(text="請再輸入一次身高(不用輸入cm)：")  
+                line_bot_api.reply_message(event.reply_token, output_message)
+        elif(ask_flag == 2):
+            try:
+                weight = int(user_message)
+                ask_flag = 0
+                result = "以下是您的個人資訊：\n身高： "+str(height)+" cm\n體重： "+str(weight)+" kg"
+                output_message = TextSendMessage(text= result)  
+                line_bot_api.reply_message(event.reply_token, output_message) 
+            except:
+                output_message = TextSendMessage(text="請再輸入一次體重(不用輸入kg)：")  
+                line_bot_api.reply_message(event.reply_token, output_message)  
+        elif(user_message == "開始跑步"):
+            output_message = TextSendMessage(text="已開始記錄！祝您跑步愉快！")  
+            line_bot_api.reply_message(event.reply_token, output_message)
+        elif(user_message == "在線跑步人數"):
+            output_message = TextSendMessage(text="目前有 21 個人正在跑步哦！")  
+            line_bot_api.reply_message(event.reply_token, output_message)
+        elif(user_message == "結束跑步"):    
+            output_message = TextSendMessage(text="好的！辛苦您了！\n以下是您的跑步結果：")  
+            line_bot_api.reply_message(event.reply_token, output_message)
+        elif(user_message == "天氣"):
+            result = '以下是今天天氣供您參考：\n'
+            r = requests.get('https://iot.cht.com.tw/iot/v1/device/4841588924/sensor/AI6/rawdata', headers = my_headers)
+            if r.status_code == requests.codes.ok:
+                temp = json.loads(r.text)
+                result += str('溫度: '+ temp['value'][0])
+            r = requests.get('https://iot.cht.com.tw/iot/v1/device/4841588924/sensor/AI7/rawdata', headers = my_headers)
+            if r.status_code == requests.codes.ok:
+                temp = json.loads(r.text)
+                result += str('濕度: '+ temp['value'][0])
 
-        r = requests.get('https://iot.cht.com.tw/iot/v1/device/4841588924/sensor/AI11/rawdata', headers = my_headers)
-        if r.status_code == requests.codes.ok:
-            temp = json.loads(r.text)
-            result += str('紫外: '+ temp['value'][0])
+            r = requests.get('https://iot.cht.com.tw/iot/v1/device/4841588924/sensor/AI11/rawdata', headers = my_headers)
+            if r.status_code == requests.codes.ok:
+                temp = json.loads(r.text)
+                result += str('紫外: '+ temp['value'][0])
 
-        r = requests.get('https://iot.cht.com.tw/iot/v1/device/4841588924/sensor/AI13/rawdata', headers = my_headers)
-        if r.status_code == requests.codes.ok:
-            temp = json.loads(r.text)
-            result += str('PM2.5: '+ temp['value'][0]+ '\n'+ '時間: '+ temp['time']) 
+            r = requests.get('https://iot.cht.com.tw/iot/v1/device/4841588924/sensor/AI13/rawdata', headers = my_headers)
+            if r.status_code == requests.codes.ok:
+                temp = json.loads(r.text)
+                result += str('PM2.5: '+ temp['value'][0]+ '\n'+ '時間: '+ temp['time']) 
 
-        output_message = TextSendMessage(text=result) 
-        line_bot_api.reply_message(event.reply_token, output_message)
-    elif(user_message == "出門注意事項"):
-        output_message = TextSendMessage(text="今天出門的話需要注意：")  
-        line_bot_api.reply_message(event.reply_token, output_message)  
+            output_message = TextSendMessage(text=result) 
+            line_bot_api.reply_message(event.reply_token, output_message)
+        elif(user_message == "出門注意事項"):
+            output_message = TextSendMessage(text="今天出門的話需要注意：")  
+            line_bot_api.reply_message(event.reply_token, output_message)  
 
-    else:  
-        output_message = TemplateSendMessage(
-            alt_text='請輸入「開始」就可以開始體驗各種功能囉！',
-            template=ConfirmTemplate(
-                text='請輸入「開始」就可以開始體驗各種功能囉！',
-                actions=[
-                    PostbackTemplateAction(
-                        label='start',
-                        text='start',
-                        data='action=buy&itemid=1'
-                    ),
-                    MessageTemplateAction(
-                        label='開始',
-                        text='開始'
-                    )
-                ]
+        else:  
+            output_message = TemplateSendMessage(
+                alt_text='請輸入「開始」就可以開始體驗各種功能囉！',
+                template=ConfirmTemplate(
+                    text='請輸入「開始」就可以開始體驗各種功能囉！',
+                    actions=[
+                        PostbackTemplateAction(
+                            label='start',
+                            text='start',
+                            data='action=buy&itemid=1'
+                        ),
+                        MessageTemplateAction(
+                            label='開始',
+                            text='開始'
+                        )
+                    ]
+                )
             )
-        )
-        line_bot_api.reply_message(event.reply_token, output_message)
+            line_bot_api.reply_message(event.reply_token, output_message)
 
 import os
 if __name__ == "__main__":
