@@ -128,7 +128,7 @@ def callback():
 def handle_message(event):
     global ask_flag,height,weight
     print(event)
-    if event.message.type = "location":
+    if event.message.type == "location":
         result = "以下是您的目前座標：\n經度： "+str(event.message.longitude)+"\n緯度： "+str(event.message.latitude)
         output_message = TextSendMessage(text= result)  
         line_bot_api.reply_message(event.reply_token, output_message) 
