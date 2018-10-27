@@ -90,7 +90,8 @@ def callback():
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    user_message = event.message.textx  
+    print(event)
+    user_message = event.message.text 
     if(user_message in ["開始","start"]):
         output_message = user_guide()
         line_bot_api.reply_message(event.reply_token, output_message)
