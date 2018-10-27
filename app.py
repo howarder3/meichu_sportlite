@@ -119,21 +119,21 @@ def handle_message(event):
         r = requests.get('https://iot.cht.com.tw/iot/v1/device/4841588924/sensor/AI6/rawdata', headers = my_headers)
         if r.status_code == requests.codes.ok:
             temp = json.loads(r.text)
-            result += str('溫度: ', temp['value'][0], '\t', '時間: ', temp['time'])
+            result += str('溫度: '+ temp['value'][0]+ '\t'+ '時間: '+ temp['time'])
         r = requests.get('https://iot.cht.com.tw/iot/v1/device/4841588924/sensor/AI7/rawdata', headers = my_headers)
         if r.status_code == requests.codes.ok:
             temp = json.loads(r.text)
-            result += str('濕度: ', temp['value'][0], '\t', '時間: ', temp['time'])
+            result += str('濕度: '+ temp['value'][0]+ '\t'+ '時間: '+ temp['time'])
 
         r = requests.get('https://iot.cht.com.tw/iot/v1/device/4841588924/sensor/AI11/rawdata', headers = my_headers)
         if r.status_code == requests.codes.ok:
             temp = json.loads(r.text)
-            result += str('紫外: ', temp['value'][0], '\t', '時間: ', temp['time'])
+            result += str('紫外: '+ temp['value'][0]+ '\t'+ '時間: '+ temp['time'])
 
         r = requests.get('https://iot.cht.com.tw/iot/v1/device/4841588924/sensor/AI13/rawdata', headers = my_headers)
         if r.status_code == requests.codes.ok:
             temp = json.loads(r.text)
-            result += str('PM2.5: ', temp['value'][0], '\t', '時間: ', temp['time']) 
+            result += str('PM2.5: '+ temp['value'][0]+ '\t'+ '時間: '+ temp['time']) 
 
         output_message = TextSendMessage(text=result) 
         line_bot_api.reply_message(event.reply_token, output_message)
