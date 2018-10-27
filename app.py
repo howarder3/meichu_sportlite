@@ -13,6 +13,8 @@ import random
 from PIL import Image
 from io import StringIO
 import json
+import math
+import time
 from datetime import datetime, timedelta
 
 app = Flask(__name__)
@@ -128,26 +130,31 @@ def callback():
 longitude = 0
 latitude = 0
 record_flag = 0
+_starttime = 0
 
 # 處理訊息
 @handler.add(MessageEvent)
 def handle_message(event):
-    global ask_flag,height,weight,first_flag,longitude,latitude
+    global ask_flag,height,weight,first_flag,longitude,latitude,record_flag,_starttime
     print(event)
     if event.message.type == "location":
         if record_flag == 1:
             longitude = event.message.longitude
             latitude = event.message.latitude
+            _starttime = time.time()
             # result = "以下是您的目前座標：\n經度： "+str(event.message.longitude)+"\n緯度： "+str(event.message.latitude)
             result = "已開始記錄！祝您跑步愉快！"
             output_message = TextSendMessage(text= result)  
             line_bot_api.reply_message(event.reply_token, output_message) 
         elif record_flag == 2:
-            longitude = event.message.longitude
-            latitude = event.message.latitude
+            _longitude = (event.message.longitude*96 - longitude*96)**2
+            _latitude = (event.message.latitude*111 - latitude*111)**2
             record_flag = 0
+            _time = time.time() - _starttime
             # result = "以下是您的目前座標：\n經度： "+str(event.message.longitude)+"\n緯度： "+str(event.message.latitude)
-            result = "已開始記錄！祝您跑步愉快！"
+            result = "好的！辛苦您了！\n以下是您的跑步結果："
+            Distance = sqrt(_latitude +_longitude)
+            result = "跑步距離： "+Distance+" km\n 跑步時間："+_time+" 小時\n 消耗卡路里： "+weight*Distance*1.036+" kcal "
             output_message = TextSendMessage(text= result)  
             line_bot_api.reply_message(event.reply_token, output_message) 
 
@@ -292,7 +299,7 @@ def handle_message(event):
         elif(user_message == "在線跑步人數"):
             output_message = TextSendMessage(text="目前有 21 個人正在跑步哦！")  
             line_bot_api.reply_message(event.reply_token, output_message)
-        elif(user_message == "結束跑步"):    
+        elif(user_message == "結束跑步" and record_flag == 1):    
             record_flag = 2
             line_bot_api.push_message('Cd562f7db39d503c99578e8b323cb0582', TextSendMessage(text='請依照下列指示上傳位置訊息：'))
             # line_bot_api.reply_message(event.reply_token, output_message)
