@@ -119,16 +119,16 @@ def handle_message(event):
         r = requests.get('https://iot.cht.com.tw/iot/v1/device/4841588924/sensor/AI6/rawdata', headers = my_headers)
         if r.status_code == requests.codes.ok:
             temp = json.loads(r.text)
-            result += str('溫度: '+ temp['value'][0]+ '\n'+ '時間: '+ temp['time']+ '\n')
+            result += str('溫度: '+ temp['value'][0])
         r = requests.get('https://iot.cht.com.tw/iot/v1/device/4841588924/sensor/AI7/rawdata', headers = my_headers)
         if r.status_code == requests.codes.ok:
             temp = json.loads(r.text)
-            result += str('濕度: '+ temp['value'][0]+ '\n'+ '時間: '+ temp['time']+ '\n')
+            result += str('濕度: '+ temp['value'][0])
 
         r = requests.get('https://iot.cht.com.tw/iot/v1/device/4841588924/sensor/AI11/rawdata', headers = my_headers)
         if r.status_code == requests.codes.ok:
             temp = json.loads(r.text)
-            result += str('紫外: '+ temp['value'][0]+ '\n'+ '時間: '+ temp['time']+ '\n')
+            result += str('紫外: '+ temp['value'][0])
 
         r = requests.get('https://iot.cht.com.tw/iot/v1/device/4841588924/sensor/AI13/rawdata', headers = my_headers)
         if r.status_code == requests.codes.ok:
