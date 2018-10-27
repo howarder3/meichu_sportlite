@@ -144,15 +144,14 @@ def handle_message(event):
             output_message = TextSendMessage(text="請再輸入一次身高(不用輸入cm)：")  
             line_bot_api.reply_message(event.reply_token, output_message)
     elif(ask_flag == 2):
-        try:
-            weight = int(user_message)
-            ask_flag = 0
-            result = "以下是您的個人資訊：\n身高： "+height+" cm\n體重： "+weight+" kg"
-            output_message = TextSendMessage(text= result )  
-            line_bot_api.reply_message(event.reply_token, output_message) 
-        except:
-            output_message = TextSendMessage(text="請再輸入一次體重(不用輸入kg)：")  
-            line_bot_api.reply_message(event.reply_token, output_message)  
+        weight = int(user_message)
+        ask_flag = 0
+        result = "以下是您的個人資訊：\n身高： "+height+" cm\n體重： "+weight+" kg"
+        output_message = TextSendMessage(text= result )  
+        line_bot_api.reply_message(event.reply_token, output_message) 
+        # except:
+        #     output_message = TextSendMessage(text="請再輸入一次體重(不用輸入kg)：")  
+        #     line_bot_api.reply_message(event.reply_token, output_message)  
     elif(user_message == "開始跑步"):
         output_message = TextSendMessage(text="已開始記錄！祝您跑步愉快！")  
         line_bot_api.reply_message(event.reply_token, output_message)
