@@ -14,17 +14,6 @@ from io import StringIO
 import json
 from datetime import datetime, timedelta
 
-from __future__ import print_function
-from apiclient.discovery import build
-from httplib2 import Http
-from oauth2client import file, client, tools
-
-from pprint import pprint
-from googleapiclient import discovery
-
-import random
-import time
-
 app = Flask(__name__)
 
 
@@ -35,32 +24,6 @@ CHANNEL_SECRET = "1d169827c6fe5905f2c7b965cbfa5114"
 my_database_sheet_ID = '1RaGPlEJKQeg_xnUGi1mlUt95-Gc6n-XF_czwudIP5Qk'
 auth_json_path = 'auth.json'
 april_ID='Udf8f28a8b752786fa7a6be7d8c808ec6'
-
-def get_value_from_google_sheet(SPREADSHEET_ID,RANGE_NAME):
-    # Setup the Sheets API
-    SCOPES = 'https://www.googleapis.com/auth/spreadsheets.readonly'
-    store = file.Storage('credentials.json')
-    creds = store.get()
-    if not creds or creds.invalid:
-        flow = client.flow_from_clientsecrets('client_secret.json', SCOPES)
-        creds = tools.run_flow(flow, store)
-    service = build('sheets', 'v4', http=creds.authorize(Http()))
-
-    # Call the Sheets API
-    result = service.spreadsheets().values().get(spreadsheetId=SPREADSHEET_ID,
-                                                 range=RANGE_NAME).execute()
-    return result.get('values', [])
-
-values = get_value_from_google_sheet(my_database_sheet_ID,'meichu!A2:C1500')
-
-list_key = []
-list_response = []
-list_type = []
-for row in values:  
-    list_key.append(row[0])
-    list_response.append(row[1])
-    list_type.append(row[2])
-
 
 count = 0
 my_headers = {'CK': 'PKJ2FK5NBYFA1RCGG8'}
