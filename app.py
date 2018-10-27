@@ -278,7 +278,7 @@ def handle_message(event):
                 line_bot_api.reply_message(event.reply_token, output_message)  
         elif(user_message == "開始跑步"):
             # output_message = TextSendMessage(text="已開始記錄！祝您跑步愉快！")  
-            line_bot_api.push_message('Cd562f7db39d503c99578e8b323cb0582', TextSendMessage(text='請依照下列指示上傳位置訊息：'))
+            output_message = TextSendMessage(text='請依照以上指示上傳位置訊息：')
             # line_bot_api.reply_message(event.reply_token, output_message)
             img1 = ImageSendMessage(
                 original_content_url= "https://i.imgur.com/fwY9ZFg.jpg",
@@ -295,13 +295,14 @@ def handle_message(event):
             record_flag = 1
             line_bot_api.push_message('Cd562f7db39d503c99578e8b323cb0582', img1)
             line_bot_api.push_message('Cd562f7db39d503c99578e8b323cb0582', img2)
-            line_bot_api.reply_message(event.reply_token, img3)
+            line_bot_api.push_message('Cd562f7db39d503c99578e8b323cb0582', img3)
+            line_bot_api.reply_message(event.reply_token, output_message)
         elif(user_message == "在線跑步人數"):
             output_message = TextSendMessage(text="目前有 21 個人正在跑步哦！")  
             line_bot_api.reply_message(event.reply_token, output_message)
         elif(user_message == "結束跑步" and record_flag == 1):    
             record_flag = 2
-            line_bot_api.push_message('Cd562f7db39d503c99578e8b323cb0582', TextSendMessage(text='請依照下列指示上傳位置訊息：'))
+            output_message = TextSendMessage(text='請依照以上指示上傳位置訊息：')
             # line_bot_api.reply_message(event.reply_token, output_message)
             img1 = ImageSendMessage(
                 original_content_url= "https://i.imgur.com/fwY9ZFg.jpg",
@@ -317,7 +318,8 @@ def handle_message(event):
             )
             line_bot_api.push_message('Cd562f7db39d503c99578e8b323cb0582', img1)
             line_bot_api.push_message('Cd562f7db39d503c99578e8b323cb0582', img2)
-            line_bot_api.reply_message(event.reply_token, img3)
+            line_bot_api.push_message('Cd562f7db39d503c99578e8b323cb0582', img3)
+            # line_bot_api.reply_message(event.reply_token, img3)
             # output_message = TextSendMessage(text="好的！辛苦您了！\n以下是您的跑步結果：")  
             line_bot_api.reply_message(event.reply_token, output_message)
         elif(user_message == "天氣"):
