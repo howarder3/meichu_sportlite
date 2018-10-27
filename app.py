@@ -82,18 +82,18 @@ def user_guide():
                     ]
                 ),
                 CarouselColumn(
-                    thumbnail_image_url='https://i.imgur.com/ewn6CmO.jpg',
+                    thumbnail_image_url='https://i.imgur.com/ODOwFxr.jpg',
                     title=' - 【我們關心您的健康】 - ',
                     text='幫您量身定做的健康照護',
                     actions=[
                         PostbackTemplateAction(
-                            label='身高體重',
-                            text='身高體重',
+                            label='修改身高',
+                            text='修改身高',
                             data='action=buy&itemid=1'
                         ),
                         MessageTemplateAction(
-                            label='查詢身高體重',
-                            text='查詢身高體重'
+                            label='修改體重',
+                            text='修改體重'
                         ),
                         # URITemplateAction(
                         #   label='uri1',
@@ -139,7 +139,7 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, output_message) 
     else:
         user_message = event.message.text 
-        if((user_message in ["開始","start"] & first_flag == 0) or (user_message == "重新修改")):
+        if((user_message == "開始" & first_flag == 0) or (user_message == "重新修改")):
             result = "第一次使用請輸入您的身高(cm)："
             first_flag = 1
             output_message = TextSendMessage(text= result)  
@@ -186,23 +186,28 @@ def handle_message(event):
         elif(user_message in ["開始","start"]):
             output_message = user_guide()  
             line_bot_api.reply_message(event.reply_token, output_message)    
-        elif(user_message == "查詢身高體重"):
-            result = "以下是您的個人資訊：\n身高： "+str(height)+" cm\n體重： "+str(weight)+" kg"
-            output_message = TextSendMessage(text= result)  
-            line_bot_api.reply_message(event.reply_token, output_message) 
-        elif(user_message == "身高體重"):
+        # elif(user_message == "身高體重"):
+        #     result = "以下是您的個人資訊：\n身高： "+str(height)+" cm\n體重： "+str(weight)+" kg"
+        #     output_message = TextSendMessage(text= result)  
+        #     line_bot_api.reply_message(event.reply_token, output_message) 
+        elif(user_message == "修改身高"):
             ask_flag = 1
             output_message = TextSendMessage(text="請輸入身高(cm)：")  
             line_bot_api.reply_message(event.reply_token, output_message)  
         elif(ask_flag == 1):
             try:
                 height = int(user_message)
-                ask_flag = 2
-                output_message = TextSendMessage(text="請輸入體重(kg)：")  
+                ask_flag = 0
+                result = "以下是您的個人資訊：\n身高： "+str(height)+" cm\n體重： "+str(weight)+" kg"
+                output_message = TextSendMessage(text= result)  
                 line_bot_api.reply_message(event.reply_token, output_message) 
             except:
                 output_message = TextSendMessage(text="請再輸入一次身高(不用輸入cm)：")  
                 line_bot_api.reply_message(event.reply_token, output_message)
+        elif(user_message == "修改體重"):
+            ask_flag = 2
+            output_message = TextSendMessage(text="請輸入體重(kg)：")  
+            line_bot_api.reply_message(event.reply_token, output_message)  
         elif(ask_flag == 2):
             try:
                 weight = int(user_message)
@@ -257,7 +262,7 @@ def handle_message(event):
                     actions=[
                         PostbackTemplateAction(
                             label='start',
-                            text='start',
+                            text='開始',
                             data='action=buy&itemid=1'
                         ),
                         MessageTemplateAction(
