@@ -378,8 +378,8 @@ def handle_message(event):
             r = requests.get('https://iot.cht.com.tw/iot/v1/device/4841588924/sensor/AI13/rawdata', headers = my_headers)
             if r.status_code == requests.codes.ok:
                 temp = json.loads(r.text)
-                result += str('PM2.5： '+ temp['value'][0]+ '\n'+ '時間： '+ str(temp['time']) + '\n') 
-                result += str('PM2.5： '+ temp['value'][0]+ '\n'+ '時間： '+ str(datetime.strptime(temp['time'], '%Y-%m-%dT%H:%M:%SZ'))+ '\n') 
+                # result += str('PM2.5： '+ temp['value'][0]+ '\n'+ '時間： '+ str(temp['time']) + '\n') 
+                result += str('PM2.5： '+ temp['value'][0]+ '\n'+ '時間： '+ str(datetime.strptime(temp['time'],'%Y-%m-%dT%H:%M:%SZ'))+ '\n') 
 
             result += "---------------------------\n若氣溫超過 35℃ 不適合進行跑步鍛鍊，若紫外 UV 3~7 時須要保護措施！超過 7 時必須要保護措施！上午10點至下午2點最好不要外出！"
 
