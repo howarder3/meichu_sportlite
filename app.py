@@ -394,14 +394,15 @@ def handle_message(event):
                                 data='action=buy&itemid=1'
                             ),
                             MessageTemplateAction(
-                                label='開始跑步',
-                                text='開始跑步'
+                                label='注意事項',
+                                text='注意事項'
                             )
                         ]
                     )
                 )
             line_bot_api.reply_message(event.reply_token, output_message) 
-        elif(user_message == "出門注意事項"):
+            output_message = user_guide()  
+        elif(user_message in ["出門注意事項","注意事項"]):
             if(random.randint(0,10)%2 == 0):
                 result = "今天相較昨天冷一些，出門可以帶個口罩跟外套呦！"
             else:
