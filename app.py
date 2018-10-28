@@ -379,7 +379,7 @@ def handle_message(event):
             if r.status_code == requests.codes.ok:
                 temp = json.loads(r.text)
                 date = datetime.strptime(temp['time'], '%Y-%m-%dT%H:%M:%S.%fZ')
-                fix_date = date.strftime('%y-%m-%d %I:%M:%S')
+                fix_date = date.strftime('20%y/%m/%d %I:%M:%S')
                 # result += str('PM2.5： '+ temp['value'][0]+ '\n'+ '時間： '+ str(temp['time']) + '\n') 
                 result += str('PM2.5： '+ temp['value'][0]+ '\n'+ '時間： '+ str(fix_date)+ '\n') 
 
