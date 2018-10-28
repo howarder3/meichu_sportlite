@@ -359,27 +359,30 @@ def handle_message(event):
             # output_message = TextSendMessage(text="好的！辛苦您了！\n以下是您的跑步結果：")  
             line_bot_api.reply_message(event.reply_token, output_message)
         elif(user_message == "天氣"):
-            result = "以下是現在天氣供您參考：\n溫度: 17.9\n濕度: 59.5\n紫外: 0\nPM2.5: 8.0\n時間: 2018-10-27 22:53:20\n"
-            # result = '以下是現在天氣給你參考：\n'
-            # r = requests.get('https://iot.cht.com.tw/iot/v1/device/4841588924/sensor/AI6/rawdata', headers = my_headers)
-            # if r.status_code == requests.codes.ok:
-            #     temp = json.loads(r.text)
-            #     result += str('溫度： '+ temp['value'][0]+ '\n')
-            # r = requests.get('https://iot.cht.com.tw/iot/v1/device/4841588924/sensor/AI7/rawdata', headers = my_headers)
-            # if r.status_code == requests.codes.ok:
-            #     temp = json.loads(r.text)
-            #     result += str('濕度：  '+ temp['value'][0]+ '\n')
+            # result = "以下是現在天氣供您參考：\n溫度: 17.9\n濕度: 59.5\n紫外: 0\nPM2.5: 8.0\n時間: 2018-10-27 22:53:20\n"
+            result = '以下是現在天氣給你參考：\n'
+            r = requests.get('https://iot.cht.com.tw/iot/v1/device/4841588924/sensor/AI6/rawdata', headers = my_headers)
+            if r.status_code == requests.codes.ok:
+                temp = json.loads(r.text)
+                result += str('溫度： '+ temp['value'][0]+ '\n')
+            r = requests.get('https://iot.cht.com.tw/iot/v1/device/4841588924/sensor/AI7/rawdata', headers = my_headers)
+            if r.status_code == requests.codes.ok:
+                temp = json.loads(r.text)
+                result += str('濕度：  '+ temp['value'][0]+ '\n')
 
-            # r = requests.get('https://iot.cht.com.tw/iot/v1/device/4841588924/sensor/AI11/rawdata', headers = my_headers)
-            # if r.status_code == requests.codes.ok:
-            #     temp = json.loads(r.text)
-            #     result += str('紫外： '+ temp['value'][0]+ '\n')
+            r = requests.get('https://iot.cht.com.tw/iot/v1/device/4841588924/sensor/AI11/rawdata', headers = my_headers)
+            if r.status_code == requests.codes.ok:
+                temp = json.loads(r.text)
+                result += str('紫外： '+ temp['value'][0]+ '\n')
 
-            # r = requests.get('https://iot.cht.com.tw/iot/v1/device/4841588924/sensor/AI13/rawdata', headers = my_headers)
-            # if r.status_code == requests.codes.ok:
-            #     temp = json.loads(r.text)
-            #     # result += str('PM2.5： '+ temp['value'][0]+ '\n'+ '時間： '+ str(temp['time']) + '\n') 
-            #     result += str('PM2.5： '+ temp['value'][0]+ '\n'+ '時間： '+ str(datetime.strptime(temp['time'],'%Y-%m-%dT%H:%M:%SZ'))+ '\n') 
+            r = requests.get('https://iot.cht.com.tw/iot/v1/device/4841588924/sensor/AI13/rawdata', headers = my_headers)
+            if r.status_code == requests.codes.ok:
+                temp = json.loads(r.text)
+                date = datetime.strptime(temp['time'], '%Y-%m-%dT%H:%M:%S.%fZ')
+                fix_date = date.strftime('%y-%m-%d %I:%M:%S')
+                # result += str('PM2.5： '+ temp['value'][0]+ '\n'+ '時間： '+ str(temp['time']) + '\n') 
+                result += str('PM2.5： '+ temp['value'][0]+ '\n'+ '時間： '+ str(fix_date)+ '\n') 
+
 
             result += "---------------------------\n若氣溫超過 35℃ 不適合進行跑步鍛鍊，若紫外 UV 3~7 時須要保護措施！超過 7 時必須要保護措施！上午10點至下午2點最好不要外出！"
 
