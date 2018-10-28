@@ -8,14 +8,15 @@ from linebot.exceptions import (
 )
 from linebot.models import *
 
-import requests
-import random
+from datetime import datetime, timedelta
 from PIL import Image
 from io import StringIO
+
+import requests
+import random
 import json
 import math
 import time
-from datetime import datetime, timedelta
 
 app = Flask(__name__)
 
@@ -376,7 +377,7 @@ def handle_message(event):
             r = requests.get('https://iot.cht.com.tw/iot/v1/device/4841588924/sensor/AI13/rawdata', headers = my_headers)
             if r.status_code == requests.codes.ok:
                 temp = json.loads(r.text)
-                result += str('PM2.5： '+ temp['value'][0]+ '\n'+ '時間： '+ temp['time'].replace(T," ").replace(Z,"")+ '\n') 
+                result += str('PM2.5： '+ temp['value'][0]+ '\n'+ '時間： '+ temp['time'].replace("T"," ").replace("Z","")+ '\n') 
 
             result += "---------------------------\n若氣溫超過 35℃ 不適合進行跑步鍛鍊，若紫外 UV 3~7 時須要保護措施！超過 7 時必須要保護措施！上午10點至下午2點最好不要外出！"
 
