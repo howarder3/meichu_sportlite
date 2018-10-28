@@ -43,27 +43,6 @@ def user_guide():
         template=CarouselTemplate(
             columns=[
                 CarouselColumn(
-                    thumbnail_image_url='https://i.imgur.com/Bum6bQc.jpg',
-                    title=' - 【開始跑步】 - ',
-                    text='讓我們開始運動吧！',
-                    actions=[
-                        PostbackTemplateAction(
-                            label='開始跑步',
-                            text='開始跑步',
-                            data='action=buy&itemid=1'
-                        ),
-                        MessageTemplateAction(
-                            label='結束跑步',
-                            text='結束跑步'
-                        ),
-                        # URITemplateAction(
-                        #   label='uri1',
-                        #   uri='http://example.com/1'
-                        # )
-                    ]
-                ),
-
-                CarouselColumn(
                     thumbnail_image_url='https://i.imgur.com/ewn6CmO.jpg',
                     title=' - 【現在天氣如何呢？】 - ',
                     text='出門運動前，記得看一下現在天氣和注意事項呦！',
@@ -76,6 +55,26 @@ def user_guide():
                         MessageTemplateAction(
                             label='出門注意事項',
                             text='出門注意事項'
+                        ),
+                        # URITemplateAction(
+                        #   label='uri1',
+                        #   uri='http://example.com/1'
+                        # )
+                    ]
+                ),
+                CarouselColumn(
+                    thumbnail_image_url='https://i.imgur.com/Bum6bQc.jpg',
+                    title=' - 【開始跑步】 - ',
+                    text='讓我們開始運動吧！',
+                    actions=[
+                        PostbackTemplateAction(
+                            label='開始跑步',
+                            text='開始跑步',
+                            data='action=buy&itemid=1'
+                        ),
+                        MessageTemplateAction(
+                            label='結束跑步',
+                            text='結束跑步'
                         ),
                         # URITemplateAction(
                         #   label='uri1',
@@ -363,23 +362,23 @@ def handle_message(event):
             r = requests.get('https://iot.cht.com.tw/iot/v1/device/4841588924/sensor/AI6/rawdata', headers = my_headers)
             if r.status_code == requests.codes.ok:
                 temp = json.loads(r.text)
-                result += str('溫度: '+ temp['value'][0]+ '\n')
+                result += str('溫度： '+ temp['value'][0]+ '\n')
             r = requests.get('https://iot.cht.com.tw/iot/v1/device/4841588924/sensor/AI7/rawdata', headers = my_headers)
             if r.status_code == requests.codes.ok:
                 temp = json.loads(r.text)
-                result += str('濕度: '+ temp['value'][0]+ '\n')
+                result += str('濕度：  '+ temp['value'][0]+ '\n')
 
             r = requests.get('https://iot.cht.com.tw/iot/v1/device/4841588924/sensor/AI11/rawdata', headers = my_headers)
             if r.status_code == requests.codes.ok:
                 temp = json.loads(r.text)
-                result += str('紫外: '+ temp['value'][0]+ '\n')
+                result += str('紫外： '+ temp['value'][0]+ '\n')
 
             r = requests.get('https://iot.cht.com.tw/iot/v1/device/4841588924/sensor/AI13/rawdata', headers = my_headers)
             if r.status_code == requests.codes.ok:
                 temp = json.loads(r.text)
-                result += str('PM2.5: '+ temp['value'][0]+ '\n'+ '時間: '+ temp['time']+ '\n') 
+                result += str('PM2.5： '+ temp['value'][0]+ '\n'+ '時間： '+ temp['time']+ '\n') 
 
-            result += "---------------------------\n若氣溫超過 35℃ 不適合進行跑步鍛鍊\n若紫外 UV 3~7 時須要保護措施！超過 7 時必須要保護措施！上午10點至下午2點最好不要外出！"
+            result += "---------------------------\n若氣溫超過 35℃ 不適合進行跑步鍛鍊，若紫外 UV 3~7 時須要保護措施！超過 7 時必須要保護措施！上午10點至下午2點最好不要外出！"
 
             output_message = TemplateSendMessage(
                     alt_text=result ,
