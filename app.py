@@ -313,16 +313,16 @@ def handle_message(event):
             output_message = TextSendMessage(text='請依照以下提示上傳位置訊息：')
             # line_bot_api.reply_message(event.reply_token, output_message)
             img1 = ImageSendMessage(
-                original_content_url= "https://i.imgur.com/fwY9ZFg.jpg",
-                preview_image_url= "https://i.imgur.com/fwY9ZFg.jpg"
+                original_content_url= "https://i.imgur.com/Ag544Qp.png",
+                preview_image_url= "https://i.imgur.com/Ag544Qp.png"
             )
             img2 = ImageSendMessage(
-                original_content_url= "https://i.imgur.com/UJoBLDr.jpg",
-                preview_image_url= "https://i.imgur.com/UJoBLDr.jpg"
+                original_content_url= "https://i.imgur.com/BCfdKid.png",
+                preview_image_url= "https://i.imgur.com/BCfdKid.png"
             )
             img3 = ImageSendMessage(
-                original_content_url= "https://i.imgur.com/5sjFAMf.jpg",
-                preview_image_url= "https://i.imgur.com/5sjFAMf.jpg"
+                original_content_url= "https://i.imgur.com/QNqwq5e.png",
+                preview_image_url= "https://i.imgur.com/QNqwq5e.png"
             )
             record_flag = 1
             
@@ -339,16 +339,16 @@ def handle_message(event):
             output_message = TextSendMessage(text='請依照以下提示上傳位置訊息：')
             # line_bot_api.reply_message(event.reply_token, output_message)
             img1 = ImageSendMessage(
-                original_content_url= "https://i.imgur.com/fwY9ZFg.jpg",
-                preview_image_url= "https://i.imgur.com/fwY9ZFg.jpg"
+                original_content_url= "https://i.imgur.com/Ag544Qp.png",
+                preview_image_url= "https://i.imgur.com/Ag544Qp.png"
             )
             img2 = ImageSendMessage(
-                original_content_url= "https://i.imgur.com/UJoBLDr.jpg",
-                preview_image_url= "https://i.imgur.com/UJoBLDr.jpg"
+                original_content_url= "https://i.imgur.com/BCfdKid.png",
+                preview_image_url= "https://i.imgur.com/BCfdKid.png"
             )
             img3 = ImageSendMessage(
-                original_content_url= "https://i.imgur.com/5sjFAMf.jpg",
-                preview_image_url= "https://i.imgur.com/5sjFAMf.jpg"
+                original_content_url= "https://i.imgur.com/QNqwq5e.png",
+                preview_image_url= "https://i.imgur.com/QNqwq5e.png"
             )
             line_bot_api.push_message('Cd562f7db39d503c99578e8b323cb0582', output_message)
             line_bot_api.push_message('Cd562f7db39d503c99578e8b323cb0582', img1)
