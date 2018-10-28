@@ -359,7 +359,7 @@ def handle_message(event):
             # output_message = TextSendMessage(text="好的！辛苦您了！\n以下是您的跑步結果：")  
             line_bot_api.reply_message(event.reply_token, output_message)
         elif(user_message == "天氣"):
-            result = "以下是今天天氣供您參考：\n溫度: 17.9\n濕度: 59.5\n紫外: 0\nPM2.5: 8.0\n時間: 2018-10-27 22:53:20"
+            result = "以下是今天天氣供您參考：\n溫度: 17.9\n濕度: 59.5\n紫外: 0\nPM2.5: 8.0\n時間: 2018-10-27 22:53:20\n"
             # result = '以下是現在天氣給你參考：\n'
             # r = requests.get('https://iot.cht.com.tw/iot/v1/device/4841588924/sensor/AI6/rawdata', headers = my_headers)
             # if r.status_code == requests.codes.ok:
