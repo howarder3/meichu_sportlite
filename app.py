@@ -170,7 +170,7 @@ def handle_message(event):
             # result = "以下是您的目前座標：\n經度： "+str(event.message.longitude)+"\n緯度： "+str(event.message.latitude)
             result = "好的！辛苦您了！\n以下是您的跑步結果：\n"
             Distance = math.sqrt(_latitude +_longitude)
-            result += ("跑步距離： {0:.3f} km\n跑步時間： {1:.3f} 小時\n消耗卡路里： {2:.3f} kcal ").format(Distance,_time/60/24,weight*Distance*1.036)
+            result += ("跑步距離： {0:.3f} km\n跑步時間： {1:.3f} 分鐘\n消耗卡路里： {2:.3f} kcal ").format(Distance,_time/60,weight*Distance*1.036)
             output_message = TemplateSendMessage(
                     alt_text=result ,
                     template=ConfirmTemplate(
