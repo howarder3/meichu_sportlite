@@ -65,8 +65,8 @@ def user_guide():
 
                 CarouselColumn(
                     thumbnail_image_url='https://i.imgur.com/ewn6CmO.jpg',
-                    title=' - 【今天天氣如何呢？】 - ',
-                    text='幫你看看今天天氣怎麼樣～',
+                    title=' - 【現在天氣如何呢？】 - ',
+                    text='出門運動前，記得看一下現在天氣和注意事項呦！',
                     actions=[
                         PostbackTemplateAction(
                             label='天氣',
@@ -218,20 +218,20 @@ def handle_message(event):
             try:
                 weight = int(user_message)
                 first_flag = 3
-                result = "以下是您的個人資訊：\n身高： "+str(height)+" cm\n體重： "+str(weight)+" kg\n"
+                result = "這是您的個人資訊對嗎～？\n身高： "+str(height)+" cm\n體重： "+str(weight)+" kg\n"
                 output_message = TemplateSendMessage(
                     alt_text=result ,
                     template=ConfirmTemplate(
                         text=result ,
                         actions=[
                             PostbackTemplateAction(
-                                label='正確，開始',
-                                text='開始',
+                                label='重新修改',
+                                text='重新修改',
                                 data='action=buy&itemid=1'
                             ),
                             MessageTemplateAction(
-                                label='重新修改',
-                                text='重新修改'
+                                label='正確無誤',
+                                text='開始'
                             )
                         ]
                     )
@@ -359,7 +359,7 @@ def handle_message(event):
             # output_message = TextSendMessage(text="好的！辛苦您了！\n以下是您的跑步結果：")  
             line_bot_api.reply_message(event.reply_token, output_message)
         elif(user_message == "天氣"):
-            result = '以下是今天天氣供您參考：\n'
+            result = '以下是現在天氣給你參考：\n'
             r = requests.get('https://iot.cht.com.tw/iot/v1/device/4841588924/sensor/AI6/rawdata', headers = my_headers)
             if r.status_code == requests.codes.ok:
                 temp = json.loads(r.text)
@@ -377,23 +377,61 @@ def handle_message(event):
             r = requests.get('https://iot.cht.com.tw/iot/v1/device/4841588924/sensor/AI13/rawdata', headers = my_headers)
             if r.status_code == requests.codes.ok:
                 temp = json.loads(r.text)
-                result += str('PM2.5: '+ temp['value'][0]+ '\n'+ '時間: '+ temp['time']) 
+                result += str('PM2.5: '+ temp['value'][0]+ '\n'+ '時間: '+ temp['time']+ '\n') 
 
-            output_message = TextSendMessage(text=result) 
-            line_bot_api.reply_message(event.reply_token, output_message)
+            result += "---------------------------\n若氣溫超過 35℃ 不適合進行跑步鍛鍊\n若紫外 UV 3~7 時須要保護措施！超過 7 時必須要保護措施！上午10點至下午2點最好不要外出！"
+
+            output_message = TemplateSendMessage(
+                    alt_text=result ,
+                    template=ConfirmTemplate(
+                        text=result ,
+                        actions=[
+                            PostbackTemplateAction(
+                                label='回主功能',
+                                text='開始',
+                                data='action=buy&itemid=1'
+                            ),
+                            MessageTemplateAction(
+                                label='開始跑步',
+                                text='開始跑步'
+                            )
+                        ]
+                    )
+                )
+            line_bot_api.reply_message(event.reply_token, output_message) 
         elif(user_message == "出門注意事項"):
-            output_message = TextSendMessage(text="今天出門的話需要注意：")  
+            if(random.randint(0,10)%2 == 0):
+                result = "今天相較昨天冷一些，出門可以帶個口罩跟外套呦！"
+            else:
+                result = "微涼很適合跑步的天氣，可以帶件輕薄外套安心外出，注意補充水分呦！"
+            output_message = TemplateSendMessage(
+                    alt_text=result ,
+                    template=ConfirmTemplate(
+                        text=result ,
+                        actions=[
+                            PostbackTemplateAction(
+                                label='回主功能',
+                                text='開始',
+                                data='action=buy&itemid=1'
+                            ),
+                            MessageTemplateAction(
+                                label='開始跑步',
+                                text='開始跑步'
+                            )
+                        ]
+                    )
+                )
             line_bot_api.reply_message(event.reply_token, output_message)  
 
         else:  
             output_message = TemplateSendMessage(
-                alt_text='請輸入「開始」就可以開始體驗各種功能囉！',
+                alt_text='嗨！歡迎來到ＯＯＯ，按下「開始」就可以開始體驗囉！',
                 template=ConfirmTemplate(
-                    text='請輸入「開始」就可以開始體驗各種功能囉！',
+                    text='嗨！歡迎來到ＯＯＯ，按下「開始」就可以開始體驗囉！',
                     actions=[
                         PostbackTemplateAction(
-                            label='start',
-                            text='start',
+                            label='START',
+                            text='開始',
                             data='action=buy&itemid=1'
                         ),
                         MessageTemplateAction(
