@@ -156,7 +156,7 @@ def handle_message(event):
                             ),
                             MessageTemplateAction(
                                 label='其他功能',
-                                text='開始'
+                                text='其他功能'
                             )
                         ]
                     )
@@ -170,7 +170,7 @@ def handle_message(event):
             # result = "以下是您的目前座標：\n經度： "+str(event.message.longitude)+"\n緯度： "+str(event.message.latitude)
             result = "好的！辛苦您了！\n以下是您的跑步結果：\n"
             Distance = math.sqrt(_latitude +_longitude)
-            result += ("跑步距離： {0:.3f} km\n跑步時間： {1:.3f} 分鐘\n消耗卡路里： {2:.3f} kcal ").format(Distance,_time/60,weight*Distance*1.036)
+            result += ("跑步距離： {0:.3f} m\n跑步時間： {1:.1f} 分鐘\n消耗卡路里： {2:.3f} kcal ").format(Distance*1000,_time/60,weight*Distance*1.036)
             output_message = TemplateSendMessage(
                     alt_text=result ,
                     template=ConfirmTemplate(
@@ -178,12 +178,12 @@ def handle_message(event):
                         actions=[
                             PostbackTemplateAction(
                                 label='OK！',
-                                text='開始',
+                                text='OK！',
                                 data='action=buy&itemid=1'
                             ),
                             MessageTemplateAction(
                                 label='繼續',
-                                text='開始'
+                                text='繼續'
                             )
                         ]
                     )
@@ -231,7 +231,7 @@ def handle_message(event):
                             ),
                             MessageTemplateAction(
                                 label='正確無誤',
-                                text='開始'
+                                text='正確無誤'
                             )
                         ]
                     )
@@ -241,7 +241,7 @@ def handle_message(event):
                 output_message = TextSendMessage(text="請再輸入一次體重(不用輸入kg)：")  
                 line_bot_api.reply_message(event.reply_token, output_message) 
 
-        elif(user_message in ["開始","start"]):
+        elif(user_message in ["開始","start","回主功能","正確，開始","正確無誤","繼續","OK！","其他功能","START"]):
             output_message = user_guide()  
             line_bot_api.reply_message(event.reply_token, output_message)    
         # elif(user_message == "身高體重"):
@@ -264,7 +264,7 @@ def handle_message(event):
                         actions=[
                             PostbackTemplateAction(
                                 label='正確，開始',
-                                text='開始',
+                                text='正確，開始',
                                 data='action=buy&itemid=1'
                             ),
                             MessageTemplateAction(
@@ -294,7 +294,7 @@ def handle_message(event):
                         actions=[
                             PostbackTemplateAction(
                                 label='正確，開始',
-                                text='開始',
+                                text='正確，開始',
                                 data='action=buy&itemid=1'
                             ),
                             MessageTemplateAction(
@@ -390,7 +390,7 @@ def handle_message(event):
                         actions=[
                             PostbackTemplateAction(
                                 label='回主功能',
-                                text='開始',
+                                text='回主功能',
                                 data='action=buy&itemid=1'
                             ),
                             MessageTemplateAction(
@@ -413,7 +413,7 @@ def handle_message(event):
                         actions=[
                             PostbackTemplateAction(
                                 label='回主功能',
-                                text='開始',
+                                text='回主功能',
                                 data='action=buy&itemid=1'
                             ),
                             MessageTemplateAction(
@@ -433,7 +433,7 @@ def handle_message(event):
                     actions=[
                         PostbackTemplateAction(
                             label='START',
-                            text='開始',
+                            text='START',
                             data='action=buy&itemid=1'
                         ),
                         MessageTemplateAction(
